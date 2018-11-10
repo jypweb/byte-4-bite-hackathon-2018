@@ -31,3 +31,20 @@
 .image-checkbox-checked .glyphicon {
   display: block !important;
 }
+
+.label-overlay {
+	color: #fff;
+	font-size: 16px;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	background-color: rgba(0,0,0,0.6);
+}
+.image-checkbox:hover .label-overlay, .image-checkbox-checked .label-overlay {
+	display: flex !important;
+}

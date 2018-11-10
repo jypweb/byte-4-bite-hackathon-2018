@@ -32,10 +32,10 @@ ActiveRecord::Schema.define(version: 2018_11_10_155008) do
   create_table "orders", force: :cascade do |t|
     t.string "oid"
     t.integer "user_id"
-    t.string "status", default: "open"
+    t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "delivery_type"
+    t.string "delivery_type", default: "Pickup"
     t.text "comments"
   end
 

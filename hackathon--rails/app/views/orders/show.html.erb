@@ -1,0 +1,17 @@
+<%= link_to "Back", user_path(@current_user.id), class: "btn btn-link" %>
+<script>
+  var order_created = new Date("<%= @order.created_at %>");
+
+</script>
+<h1>Order #<%= @order.id.to_s.rjust(5, "0") %></h1>
+<p><strong>Created:</strong> <script>document.write(order_created.toLocaleString())</script></p>
+<p><strong>Status:</strong> <%= @order.status.capitalize %></p>
+<p><strong>Order Type:</strong> <%= @order.delivery_type %></p>
+<br>
+
+<p><strong>Order Items:</strong></p>
+<ul>
+  <% @order.food_options.each do |food| %>
+    <li><%= food.name %> &times; <%= food.order_to_food_options.where(order_id: @order.id, food_option_id: food.id).first.quantity %></li>
+  <% end %>
+</ul>

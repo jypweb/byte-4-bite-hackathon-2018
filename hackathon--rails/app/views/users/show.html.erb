@@ -1,1 +1,20 @@
-<%= link_to "Create Order", new_order_path, class: "btn btn-info" %>
+<%= link_to "Create Order", new_order_path, class: "btn btn-info btn-with-another" %>
+<%= link_to "View Past Orders", orders_past_orders_path, class: "btn btn-default" %>
+<h1>Open Orders</h1>
+
+<% @orders.each do |order| %>
+  <div class="col-sm-4">
+    <%= link_to(order_path(order.oid), {class: "order-box"}) do %>
+      <p class="order-box__label">Order #<%= order.id.to_s.rjust(5, "0") %></p>
+      <p class="order-box__status">Status: <%= order.status.capitalize %></p>
+      <ul class="order-box__list">
+        <% order.food_options.limit(3).each do |food| %>
+          <li><%= food.name %> &times <%= food.order_to_food_options.where(order_id: order.id, food_option_id: food.id).first.quantity %></li>
+        <% end%>
+        <% if order.food_options.count > 3 %>
+          <li>...</li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>

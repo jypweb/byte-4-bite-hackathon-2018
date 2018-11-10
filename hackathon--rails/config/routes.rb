@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   get 'logout', to: 'users#logout'
   post 'auth', to: 'users#auth'
 
-  resources :orders, only: [:new, :create, :show]
   get 'orders/:order_id/cancel', to: 'orders#cancel'
+  get 'orders/past_orders', to: 'orders#past_orders'
+  resources :orders, only: [:new, :create, :show]
 
   resources :users, except: [:index]
   get 'test', to: 'users#test' # JWT test for socket server

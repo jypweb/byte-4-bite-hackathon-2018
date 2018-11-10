@@ -6,12 +6,14 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
+    @order.user_id = @current_user.id
     if @order.save
       $redis.publish "order-created", {user: @current_user.id, data: {order_id: @order.id}}.to_json
       flash[:success] = "Order Created"
       redirect_to user_path(@current_user.id)
     else
       flash[:error] = @order.errors.full_messages.to_sentence
+      @foods = FoodOption.all
       render 'new'
     end
   end
@@ -35,11 +37,11 @@ class OrdersController < ApplicationController
   end
 
   def past_orders
-    @orders = @current_user.orders.where(status: "complete")
+    @orders = @current_user.orders.where(status: ["complete", "cancelled"])
   end
 
   private
   def order_params
-    params.require(:order).permit(:food_list => [])
+    params.require(:order).permit(:quantity, :delivery_type, :food_list => [])
   end
 end

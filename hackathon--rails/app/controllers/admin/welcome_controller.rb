@@ -3,6 +3,7 @@ class Admin::WelcomeController < ApplicationController
   before_action :check_is_admin
 
   def index
+    @orders = Order.where.not(status: ["completed", "cancelled"])
   end
 
   private

@@ -1,13 +1,23 @@
 <h1>Food Options</h1>
 <%= form_for @order, method: :post do |f| %>
-  <%= f.hidden_field :food_list %>
-  <% @foods.each do |food| %>
-    <div class="col-xs-12 col-sm-4 nopad text-center">
-      <label class="image-checkbox">
-        <%= image_tag "https://loremflickr.com/320/240/#{URI.encode(food.name.split(' ').join(','))}", class: "img-responsive" %>
-        <input type="checkbox" name="image[]" value="" />
-        <span class="glyphicon glyphicon-ok hidden"></span>
-      </label>
+  <div class="row">
+    <% @foods.each do |food| %>
+      <div class="col-xs-12 col-sm-4 nopad text-center">
+        <label class="image-checkbox">
+          <%= image_tag "https://loremflickr.com/200/200/food,#{URI.encode(food.name.split(' ').join(','))}", class: "img-responsive" %>
+          <input type="checkbox" name="order[food_list][]" value="<%= food.id %>" />
+          <span class="glyphicon glyphicon-ok hidden"></span>
+          <p class="label-overlay hidden"><%= food.name %></p>
+        </label>
+      </div>
+    <% end %>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <%= f.label :delivery_type, "Delivery Type: " %>
+        <%= f.select :delivery_type, ["Pick Up", "Uber Eats Delivery"] %>
+      </div>
     </div>
-  <% end %>
+  </div>
+  <%= link_to "Cancel", user_path(@current_user.id), class: "btn btn-default pull-right" %>
+  <%= f.submit class: "btn btn-primary btn-with-another pull-right" %>
 <% end %>

@@ -1,2 +1,13 @@
-<h1>Orders#new</h1>
-<p>Find me in app/views/orders/new.html.erb</p>
+<h1>Food Options</h1>
+<%= form_for @order, method: :post do |f| %>
+  <%= f.hidden_field :food_list %>
+  <% @foods.each do |food| %>
+    <div class="col-xs-12 col-sm-4 nopad text-center">
+      <label class="image-checkbox">
+        <%= image_tag "https://loremflickr.com/320/240/#{URI.encode(food.name.split(' ').join(','))}", class: "img-responsive" %>
+        <input type="checkbox" name="image[]" value="" />
+        <span class="glyphicon glyphicon-ok hidden"></span>
+      </label>
+    </div>
+  <% end %>
+<% end %>

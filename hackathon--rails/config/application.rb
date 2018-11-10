@@ -20,5 +20,7 @@ module Hackathon
 
     #autoloads lib folder during development
     config.autoload_paths << Rails.root.join('lib')
+
+    config.assets.paths << Rails.root.join("vendor", "assets")
   end
 end

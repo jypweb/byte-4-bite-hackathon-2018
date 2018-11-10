@@ -11,6 +11,8 @@ class OrdersController < ApplicationController
       flash[:success] = "Order Created"
       redirect_to user_path(@current_user.id)
     else
+      flash[:error] = @order.errors.full_messages.to_sentence
+      render 'new'
     end
   end
 

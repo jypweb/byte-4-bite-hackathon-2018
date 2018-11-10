@@ -1,11 +1,17 @@
 class OrdersController < ApplicationController
   def new
     @order = Order.new
+    @foods = FoodOption.all
   end
 
   def create
-    @order = Order.new
-    @foods = FoodOption.all
+    @order = Order.new(order_params)
+    if @order.save
+      $redis.publish "order-created", {user: @current_user.id, data: {order_id: @order.id}}.to_json
+      flash[:success] = "Order Created"
+      redirect_to user_path(@current_user.id)
+    else
+    end
   end
 
   def show

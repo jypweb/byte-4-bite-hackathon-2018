@@ -8,6 +8,17 @@ class Order < ApplicationRecord
   before_create :set_order_id_key
   after_create :associate_foods
 
+  def foods_list(options={})
+    food_list = []
+    self.food_options.each do |food|
+      food_list.push({
+        name: food.name,
+        quantity: self.order_to_food_options.where(food_option_id: food.id, order_id: self.id).first.quantity
+      })
+    end
+    return food_list
+  end
+
   private
   def set_order_id_key
     begin

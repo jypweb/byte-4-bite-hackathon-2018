@@ -1,0 +1,9 @@
+update_order_modal({
+  title: "<%= @order.id.to_s.rjust(5, "0") %>",
+  status: "<%= @order.status.capitalize %>",
+  comment: "<%= @order.comments %>",
+  action: "<%= admin_update_order_path(@order.oid) %>",
+  items: <%= raw(@order.foods_list.to_json) %>
+});
+
+show_order_modal();

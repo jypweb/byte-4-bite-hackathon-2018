@@ -1,0 +1,13 @@
+close_order_modal();
+
+<% if !flash.blank? %>
+  <% if flash[:success] %>
+    showSuccess("<%= flash[:success] %>");
+  <% end %>
+  <% if flash[:notice] %>
+    showSuccess("<%= flash[:notice] %>");
+  <% end %>
+  <% if flash[:error] %>
+    showErrorMessage("<%= flash[:error] %>");
+  <% end %>
+<% end %>

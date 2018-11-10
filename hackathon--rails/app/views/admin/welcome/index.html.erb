@@ -1,2 +1,44 @@
-<h1>Admin::Welcome#index</h1>
-<p>Find me in app/views/admin/welcome/index.html.erb</p>
+<h1>Opened Orders</h1>
+<div id="order-list">
+  <% @orders.each do |order| %>
+    <div class="col-sm-4">
+      <%= link_to(admin_show_order_path(order.oid), {class: "order-box", data: {remote: true}}) do %>
+        <p class="order-box__label">Order #<%= order.id.to_s.rjust(5, "0") %></p>
+        <p class="order-box__status">Status: <%= order.status.capitalize %></p>
+        <ul class="order-box__list">
+          <% order.food_options.limit(3).each do |food| %>
+            <li><%= food.name %> &times <%= food.order_to_food_options.where(order_id: order.id, food_option_id: food.id).first.quantity %></li>
+          <% end%>
+          <% if order.food_options.count > 3 %>
+            <li>...</li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div id="order-details" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="order-title" class="modal-title">Order Title</h4>
+      </div>
+      <form id="modal-form" action="" data-remote="true" method="put">
+        <div class="modal-body">
+          <p><strong>Status:</strong> <span id="order-status"></span></p>
+          <ul id="modal-order-list" class="order-box__list">
+          </ul>
+          <label>Comment:</label>
+          <textarea id="order_comment_" name="order[comments]" rows="4" class="form-control"></textarea>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" id="submit-btn" class="btn btn-primary" data-remote="true" data-change="processing" value="Accept Order" />
+          <a href="#" class="btn btn-danger", data-confirm="Are you sure you want to cancel this order?">Cancel Order</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

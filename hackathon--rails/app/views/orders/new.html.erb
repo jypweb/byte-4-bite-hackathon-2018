@@ -4,7 +4,7 @@
     <% @foods.each do |food| %>
       <div class="col-xs-12 col-sm-4 nopad text-center">
         <label class="image-checkbox">
-          <%= image_tag "https://loremflickr.com/200/200/food,#{URI.encode(food.name.split(' ').join(','))}", class: "img-responsive" %>
+          <%= image_tag "food.jpg", class: "img-responsive" %>
           <input type="checkbox" name="order[food_list][]" value="<%= food.id %>" />
           <span class="glyphicon glyphicon-ok hidden"></span>
           <p class="label-overlay hidden"><%= food.name %></p>

@@ -29,6 +29,9 @@
    margin: 0 auto;
    text-align: center;
    padding: 25px;
+   @media (max-width: 768px) {
+     max-width: inherit;
+   }
    &:hover {
      text-decoration: none;
    }

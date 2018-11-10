@@ -19,3 +19,4 @@
 //= require messenger/js/demo/location-sel
 //= require messenger/js/demo/theme-sel
 //= require messenger/js/demo/demo-messages
+//= require socket.io

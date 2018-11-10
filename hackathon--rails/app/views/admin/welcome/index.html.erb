@@ -1,21 +1,6 @@
 <h1>Opened Orders</h1>
 <div id="order-list">
-  <% @orders.each do |order| %>
-    <div class="col-sm-4">
-      <%= link_to(admin_show_order_path(order.oid), {class: "order-box", data: {remote: true}}) do %>
-        <p class="order-box__label">Order #<%= order.id.to_s.rjust(5, "0") %></p>
-        <p class="order-box__status">Status: <%= order.status.capitalize %></p>
-        <ul class="order-box__list">
-          <% order.food_options.limit(3).each do |food| %>
-            <li><%= food.name %> &times <%= food.order_to_food_options.where(order_id: order.id, food_option_id: food.id).first.quantity %></li>
-          <% end%>
-          <% if order.food_options.count > 3 %>
-            <li>...</li>
-          <% end %>
-        </ul>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: 'order_boxes' %>
 </div>
 
 <div id="order-details" class="modal fade" tabindex="-1" role="dialog">
@@ -42,3 +27,27 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<% content_for :javascript do %>
+  <script>
+    var api_url = 'ws://172.16.84.128:3001',
+        socket = null,
+        authToken = "<%= session[:jwt_token] %>"
+    ;
+
+    socket = io(api_url);
+    socket.on("connect", function() {
+      console.log("connected");
+    });
+    socket.on("auth-request", function() {
+      console.log("auth-request");
+      socket.emit("login", authToken);
+    });
+    socket.on("order-created", function(data) {
+      alert("ORDER CREATED!!!");
+    });
+    socket.on("error", function() {
+      socket.close();
+    })
+  </script>
+<% end %>

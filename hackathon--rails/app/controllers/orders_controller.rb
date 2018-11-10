@@ -29,9 +29,6 @@ class OrdersController < ApplicationController
   def cancel
     @order = @current_user.orders.find_by_oid(params[:order_id])
     if @order
-      p "========================="
-      p @order
-      p "========================="
       if @order.update_attributes(status: "cancelled")
         flash[:success] = "Order cancelled"
       else

@@ -1,7 +1,6 @@
 <%= link_to "Back", ["complete", "cancelled"].include?(@order.status) ? orders_past_orders_path : user_path(@current_user.id), class: "btn btn-link" %>
 <script>
   var order_created = new Date("<%= @order.created_at %>");
-
 </script>
 <h1>Order #<%= @order.id.to_s.rjust(5, "0") %></h1>
 <p><strong>Created:</strong> <script>document.write(order_created.toLocaleString())</script></p>
@@ -18,4 +17,14 @@
 <br>
 <% if !["complete", "cancelled"].include?(@order.status) %>
   <%= link_to "Cancel Order", order_cancel_path(@order.oid), class: "btn btn-danger pull-right", data: {confirm: "Are you sure you want to cancel this order?"} %>
+<% end %>
+
+<% content_for :javascript do %>
+<script>
+  var api_url = 'ws://localhost:3001',
+      socket = null,
+      authToken = "<%= session[:jwt_token] %>"
+  ;
+  console.log(access_token);
+</script>
 <% end %>

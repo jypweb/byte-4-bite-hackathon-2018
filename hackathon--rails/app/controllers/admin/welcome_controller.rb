@@ -25,6 +25,10 @@ class Admin::WelcomeController < ApplicationController
     @order = Order.find_by_oid(params[:order_id])
   end
 
+  def refresh_orders
+    @orders = Order.where.not(status: ["complete", "cancelled"])
+  end
+
   private
   def order_params
     params.require(:order).permit(:comments)

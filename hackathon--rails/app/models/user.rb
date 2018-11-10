@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   def as_json(options={})
     # only return id and name for testing purposes
-    super({only: [:id, :name]})
+    super({only: [:id, :name, :is_admin]})
   end
 
 end

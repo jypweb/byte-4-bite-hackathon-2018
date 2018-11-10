@@ -3,7 +3,7 @@ class Admin::WelcomeController < ApplicationController
   before_action :check_is_admin
 
   def index
-    @orders = Order.where.not(status: ["complete", "cancelled"])
+    @orders = Order.where.not(status: ["complete", "cancelled"]).order(:id)
   end
 
   def update_order
@@ -15,7 +15,8 @@ class Admin::WelcomeController < ApplicationController
       new_params[:status] = "complete"
     end
     if @order.update_attributes(new_params)
-      $redis.publish "order-updated", {user: @current_user.id, data: {order_id: @order.oid}}.to_json
+      @order.reload
+      $redis.publish "order-updated", {user: @order.user.id, data: {order_id: @order.oid}}.to_json
       flash.now[:success] = "Order Successfully Updated"
     else
       flash.now[:error] = "There was an error."
@@ -27,7 +28,8 @@ class Admin::WelcomeController < ApplicationController
   end
 
   def refresh_orders
-    @orders = Order.where.not(status: ["complete", "cancelled"])
+    p "=============+GOT HERE=================="
+    @orders = Order.where.not(status: ["complete", "cancelled"]).order(:id)
   end
 
   private

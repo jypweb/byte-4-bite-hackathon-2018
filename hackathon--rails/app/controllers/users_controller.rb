@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   def show
     # Show the user's open orders
     @user = User.find(params[:id])
-    @orders = @user.orders.where.not(status: ["complete", "cancelled"])
+    @orders = @user.orders.where.not(status: ["complete", "cancelled"]).order(:id)
   end
 
   def edit
@@ -49,6 +49,10 @@ class UsersController < ApplicationController
   def destroy
     # Destroy the user endpoint
     #TODO: Disable user
+  end
+
+  def refresh_orders
+    @orders = @current_user.orders.where.not(status: ["complete", "cancelled"]).order(:id)
   end
 
   def test

@@ -35,8 +35,7 @@
       socket.emit("login", authToken);
     });
     socket.on("order-updated", function(data) {
-      console.log("DATA", data);
-      // window.location.reload();
+      window.location.reload();
     });
     socket.on("error", function() {
       socket.close();

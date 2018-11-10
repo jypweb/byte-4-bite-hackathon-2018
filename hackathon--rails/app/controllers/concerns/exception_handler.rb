@@ -18,11 +18,19 @@ module ExceptionHandler
     rescue_from ExceptionHandler::DecodeError, with: :four_zero_one
 
     rescue_from ActiveRecord::RecordNotFound do |e|
-     render json: { message: e.message }, status: :not_found
+      session[:user_id] = ""
+      session[:expire] = ""
+      session[:jwt_token] = ""
+      flash[:error] = "Unable to find user"
+      redirect_to login_path
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
-      render json: { message: e.message }, status: :unprocessable_entity
+      flash[:error] = "Record Invalid"
+      session[:user_id] = ""
+      session[:expire] = ""
+      session[:jwt_token] = ""
+      redirect_to login_path
     end
   end
 

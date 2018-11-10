@@ -7,11 +7,13 @@ class UsersController < ApplicationController
 
   def login
     @user = User.new
+    render layout: 'signin'
   end
 
   def logout
     session[:user_id] = nil
     session[:expire] = nil
+    session[:jwt_token] = nil
     flash[:notice] = "Logged out!"
     redirect_to login_path
   end
@@ -20,26 +22,33 @@ class UsersController < ApplicationController
     # Create the user endpoint
     @user = User.new(user_params)
     if @user.save
+      flash[:success] = "Successfully Signed Up"
+      authenticate user_params[:email], user_params[:password]
     else
       flash[:error] = @user.errors.full_messages.to_sentence
-      redirect_to 'login'
+      redirect_to login_path
     end
   end
 
   def show
     # Show the user's open orders
+    @user = User.find(params[:id])
+    @orders = @user.orders.where.not(status: ["complete", "cancelled"])
   end
 
   def edit
     # Edit a users' profile view
+    @user = User.find(params[:id])
   end
 
   def update
     # Update the user endpoint
+    @user = User.find(params[:id])
   end
 
   def destroy
     # Destroy the user endpoint
+    #TODO: Disable user
   end
 
   def test
@@ -54,7 +63,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password, :address1, :address2, :city, :state, :postal_code)
+    params.require(:user).permit(:name, :email, :password, :address1, :address2, :city, :state, :postal_code, :phone)
   end
 
   def authenticate(email, password)

@@ -1,0 +1,52 @@
+<div id="login-view" class="container">
+  <div class="login-wrapper">
+
+  <%= form_tag auth_path, class: 'login-form' do %>
+    <legend>Sign in to <span class="blue">Food Portal</span></legend>
+    <div class="body">
+      <div class="form-group">
+        <%= label_tag :email, nil %>
+        <%= text_field_tag :email, params[:email], class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :password, nil %>
+        <%= password_field_tag :password, params[:password], class: 'form-control' %>
+      </div>
+    </div>
+    <div class="footer">
+      <%= submit_tag "Log in", class: "btn btn-success" %>
+      <%= link_to "Register", "javascript:;", class: "btn btn-link pull-right", id: "registerSwitch" %>
+    </div>
+  <% end %>
+
+  </div>
+</div>
+
+<div id="signup-view" class="container" style="display: none;">
+  <div class="login-wrapper">
+
+  <%= form_for @user, html: {class: 'login-form'}, method: :post do |f| %>
+    <legend>Sign in to <span class="blue">Food Portal</span></legend>
+    <div class="body">
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.text_field :email, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="footer">
+      <%= submit_tag "Sign Up", class: "btn btn-success" %>
+      <%= link_to "Log In", "javascript:;", class: "btn btn-link pull-right", id: "loginSwitch" %>
+    </div>
+  <% end %>
+
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<% if !flash.blank? %>
+  <script>
+    <% if flash[:success] %>
+      showSuccess("<%= flash[:success] %>");
+    <% end %>
+    <% if flash[:notice] %>
+      showSuccess("<%= flash[:notice] %>");
+    <% end %>
+    <% if flash[:error] %>
+      showErrorMessage("<%= flash[:error] %>");
+    <% end %>
+  </script>
+<% end %>

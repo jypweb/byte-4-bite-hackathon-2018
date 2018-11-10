@@ -1,4 +1,4 @@
-<%= link_to "Back", user_path(@current_user.id), class: "btn btn-link" %>
+<%= link_to "Back", ["closed", "cancelled"].include?(@order.status) ? orders_past_orders_path : user_path(@current_user.id), class: "btn btn-link" %>
 <script>
   var order_created = new Date("<%= @order.created_at %>");
 
@@ -15,3 +15,7 @@
     <li><%= food.name %> &times; <%= food.order_to_food_options.where(order_id: @order.id, food_option_id: food.id).first.quantity %></li>
   <% end %>
 </ul>
+<br>
+<% if !["closed", "cancelled"].include?(@order.status) %>
+  <%= link_to "Cancel Order", order_cancel_path(@order.oid), class: "btn btn-danger pull-right", data: {confirm: "Are you sure you want to cancel this order?"} %>
+<% end %>

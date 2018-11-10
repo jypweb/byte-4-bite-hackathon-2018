@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'users#logout'
   post 'auth', to: 'users#auth'
 
-  get 'orders/:order_id/cancel', to: 'orders#cancel'
+  get 'orders/:order_id/cancel', to: 'orders#cancel', as: 'order_cancel'
   get 'orders/past_orders', to: 'orders#past_orders'
   resources :orders, only: [:new, :create, :show]
 

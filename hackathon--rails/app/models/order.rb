@@ -1,8 +1,6 @@
 class Order < ApplicationRecord
   attr_accessor :food_list, :quantity
 
-  validates_presence_of :food_list
-
   belongs_to :user, dependent: :destroy
   has_many :order_to_food_options, dependent: :destroy
   has_many :food_options, through: :order_to_food_options

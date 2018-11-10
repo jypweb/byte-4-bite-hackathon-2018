@@ -29,11 +29,18 @@ class OrdersController < ApplicationController
   def cancel
     @order = @current_user.orders.find_by_oid(params[:order_id])
     if @order
-      @order.update_attributes(status: "cancelled")
+      p "========================="
+      p @order
+      p "========================="
+      if @order.update_attributes(status: "cancelled")
+        flash[:success] = "Order cancelled"
+      else
+        flash[:error] = @order.errors.full_messages.to_sentence
+      end
     else
       flash[:error] = "Order not found"
-      redirect_to user_path(@current_user.id)
     end
+    redirect_to user_path(@current_user.id)
   end
 
   def past_orders

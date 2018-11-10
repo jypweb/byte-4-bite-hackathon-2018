@@ -15,6 +15,7 @@ class Admin::WelcomeController < ApplicationController
       new_params[:status] = "complete"
     end
     if @order.update_attributes(new_params)
+      $redis.publish "order-updated", {user: @current_user.id, data: {order_id: @order.oid}}.to_json
       flash.now[:success] = "Order Successfully Updated"
     else
       flash.now[:error] = "There was an error."

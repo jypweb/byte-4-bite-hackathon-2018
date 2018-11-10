@@ -56,6 +56,7 @@ var redis = require("redis").createClient();
 // Redis Channels subscribe here
 redis.subscribe("order-created");
 redis.subscribe("order-updated");
+redis.subscribe("order-cancelled");
 
 redis.on("message", function(channel, message) {
   console.log("received message");

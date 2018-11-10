@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.user_id = @current_user.id
     if @order.save
-      $redis.publish "order-created", {user: @current_user.id, data: {order_id: @order.id}}.to_json
+      $redis.publish "order-created", {user: @current_user.id, data: {order_id: @order.oid}}.to_json
       flash[:success] = "Order Created"
       redirect_to user_path(@current_user.id)
     else
@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
     @order = @current_user.orders.find_by_oid(params[:order_id])
     if @order
       if @order.update_attributes(status: "cancelled")
+        $redis.publish "order-cancelled", {user: @current_user.id, data: {order_id: @order.oid}}.to_json
         flash[:success] = "Order cancelled"
       else
         flash[:error] = @order.errors.full_messages.to_sentence
@@ -42,6 +43,10 @@ class OrdersController < ApplicationController
 
   def past_orders
     @orders = @current_user.orders.where(status: ["complete", "cancelled"])
+  end
+
+  def refresh_orders
+    @orders = Order.where.not(status: ["complete", "cancelled"])
   end
 
   private

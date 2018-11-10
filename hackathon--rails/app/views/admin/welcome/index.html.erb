@@ -1,4 +1,5 @@
 <h1>Opened Orders</h1>
+<%= link_to "Refresh", admin_refresh_orders_path, id: "secret-refresh-btn", class: "hide", data: {remote: true} %>
 <div id="order-list">
   <%= render partial: 'order_boxes' %>
 </div>
@@ -44,7 +45,16 @@
       socket.emit("login", authToken);
     });
     socket.on("order-created", function(data) {
-      alert("ORDER CREATED!!!");
+      console.log("order-created");
+      $("#secret-refresh-btn")[0].click();
+    });
+    socket.on("order-cancelled", function(data) {
+      console.log("order-cancelled");
+      $("#secret-refresh-btn")[0].click();
+    });
+    socket.on("order-updated", function(data) {
+      console.log("order-updated");
+      $("#secret-refresh-btn")[0].click();
     });
     socket.on("error", function() {
       socket.close();

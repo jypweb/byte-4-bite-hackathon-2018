@@ -23,7 +23,8 @@
   <script>
     var api_url = 'ws://172.16.84.128:3001',
         socket = null,
-        authToken = "<%= session[:jwt_token] %>"
+        authToken = "<%= session[:jwt_token] %>",
+        order_oid = "<%= @order.oid %>"
     ;
 
     socket = io(api_url);
@@ -35,7 +36,10 @@
       socket.emit("login", authToken);
     });
     socket.on("order-updated", function(data) {
-      window.location.reload();
+      if (data.order_id == order_oid) window.location.reload();
+    });
+    socket.on("order-cancelled", function(data) {
+      if (data.order_id == order_oid) window.location.reload();
     });
     socket.on("error", function() {
       socket.close();

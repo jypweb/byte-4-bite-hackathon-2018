@@ -3,6 +3,8 @@ update_order_modal({
   status: "<%= @order.status.capitalize %>",
   comment: "<%= @order.comments %>",
   action: "<%= admin_update_order_path(@order.oid) %>",
+  delivery_type: "<%= @order.delivery_type %>",
+  cancel_link: "<%= admin_cancel_order_path(@order.oid) %>",
   items: <%= raw(@order.foods_list.to_json) %>
 });
 

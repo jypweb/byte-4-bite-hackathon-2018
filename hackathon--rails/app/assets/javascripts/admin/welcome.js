@@ -5,7 +5,9 @@ $("#modal-form").submit(function() {
 function update_order_modal(options) {
   $("#order-title").html("Order #" + options.title);
   $("#order-status").html(options.status);
+  $("#delivery-type").html(options.delivery_type);
   $("#modal-form").attr("action", options.action);
+  $("#modal-cancel-btn").attr("href", options.cancel_link);
   $("#modal-order-list").html("");
   $("#order_comment_").val(options.comment);
   $("#status-change").val("");

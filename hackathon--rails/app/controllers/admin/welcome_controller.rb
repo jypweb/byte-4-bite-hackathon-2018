@@ -16,7 +16,7 @@ class Admin::WelcomeController < ApplicationController
     end
     if @order.update_attributes(new_params)
       @order.reload
-      $redis.publish "order-updated", {user: @order.user.id, data: {order_id: @order.oid}}.to_json
+      $redis.publish "order-updated", {user: @order.user.id, data: {order_id: @order.oid, status: @order.status}}.to_json
       flash.now[:success] = "Order Successfully Updated"
     else
       flash.now[:error] = "There was an error."
@@ -25,6 +25,17 @@ class Admin::WelcomeController < ApplicationController
 
   def show_order
     @order = Order.find_by_oid(params[:order_id])
+  end
+
+  def cancel_order
+    @order = Order.find_by_oid(params[:order_id])
+    if @order.update_attributes(status: "cancelled")
+      @order.reload
+      $redis.publish "order-cancelled", {user: @order.user.id, data: {order_id: @order.oid, status: @order.status}}.to_json
+      flash.now[:success] = "Order Successfully Cancelled"
+    else
+      flash.now[:error] = @order.errors.full_messages.to_sentence
+    end
   end
 
   def refresh_orders

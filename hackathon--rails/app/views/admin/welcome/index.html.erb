@@ -14,6 +14,7 @@
       <form id="modal-form" action="" data-remote="true" method="put">
         <div class="modal-body">
           <p><strong>Status:</strong> <span id="order-status"></span></p>
+          <p><strong>Delivery Type:</strong> <span id="delivery-type"></span></p>
           <ul id="modal-order-list" class="order-box__list">
           </ul>
           <label>Comment:</label>
@@ -21,7 +22,7 @@
         </div>
         <div class="modal-footer">
           <input type="submit" id="submit-btn" class="btn btn-primary" data-remote="true" data-change="processing" value="Accept Order" />
-          <a href="#" class="btn btn-danger", data-confirm="Are you sure you want to cancel this order?">Cancel Order</a>
+          <a id="modal-cancel-btn" href="#" class="btn btn-danger", data-confirm="Are you sure you want to cancel this order?" data-remote="true">Cancel Order</a>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </form>
